@@ -1,0 +1,18 @@
+version: "3"  # optional since v1.27.0
+services:
+  web:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile
+    ports:
+      - "9999:9990"
+    volumes:
+      - example:/example
+    #~ links:
+      #~ - redis
+  #~ redis:
+    #~ image: redis
+
+volumes:
+  example:
+    external: true

@@ -1,0 +1,12 @@
+[
+    {
+        "name": "Makefile",
+        "searchStr": "VERSION :=",
+        "formatStr": "VERSION := {0}\n"
+    },
+    {
+        "name": ".version",
+        "searchStr": "VERSION=",
+        "formatStr": "VERSION={0}\n"
+    }
+]
