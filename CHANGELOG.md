@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 [Also based on](https://github.com/conventional-changelog/standard-version/blob/master/CHANGELOG.md) so decending.
 
+## [0.1.3] - 2022-12-20
+### Added
+- adds fropilr and dist to gitignore
+- adds rocky dockerfile for building packages
+
+### Changed
+- updates the version to the latest
+
 ## [0.1.2] - 2022-11-01
 ### Added
 - adds fropilr specs and vols.sh a few additional fixes and tweaks
