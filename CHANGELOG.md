@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [0.1.3] - 2022-12-20
 ### Added
 - adds fropilr and dist to gitignore
+- adds rocky dockerfile for building packages
 
 ### Changed
 - updates the version to the latest
