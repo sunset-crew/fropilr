@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 [Also based on](https://github.com/conventional-changelog/standard-version/blob/master/CHANGELOG.md) so decending.
 
+## [0.1.4] - 2023-04-02
+### Changed
+- updates golang dependancies
+
 ## [0.1.3] - 2022-12-20
 ### Added
 - adds fropilr and dist to gitignore
