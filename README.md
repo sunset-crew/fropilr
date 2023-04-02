@@ -23,6 +23,7 @@ Usage:
 
 Available Commands:
   backup      Backup the current user's info
+  client      Client for profile package management
   decrypt     This decrypts encrypted files sent to the server.
   encrypt     Using a pubkey, this encrypts the message
   get         Get config values

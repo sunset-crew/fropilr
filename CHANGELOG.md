@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [0.1.4] - 2023-04-02
 ### Added
 - adds dist folder to deb build and dist-gzip
+- adds client subcmd along with the list action
 
 ### Changed
 - updates golang dependancies
