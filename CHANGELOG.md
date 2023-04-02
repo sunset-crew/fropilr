@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 [Also based on](https://github.com/conventional-changelog/standard-version/blob/master/CHANGELOG.md) so decending.
 
 ## [0.1.4] - 2023-04-02
+### Added
+- adds dist folder to deb build and dist-gzip
+
 ### Changed
 - updates golang dependancies
 

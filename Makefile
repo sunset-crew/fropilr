@@ -5,6 +5,8 @@ ifneq (,$(wildcard ~/.fropenv))
     export
 endif
 
+include $(CURDIR)/.version
+
 fmt:
 	go fmt
 
@@ -50,5 +52,14 @@ build:
 deb: build
 	mv fropilr deploy/debian/usr/local/bin
 	dpkg-deb --build deploy/debian
-	mv deploy/debian.deb fropilr-${VERSION}.deb
+	mkdir -p dist
+	mv deploy/debian.deb dist/fropilr-${VERSION}.deb
 	rm -f deploy/debian/usr/local/bin/fropilr
+
+dist-gzip: build
+	mkdir -p dist/${APPNAME}-${VERSION}/
+	cp fropilr dist/${APPNAME}-${VERSION}/
+	cd dist && tar cvzf ${APPNAME}-${VERSION}.tar.gz ${APPNAME}-${VERSION} && rm -rf ${APPNAME}-${VERSION}
+
+clean:
+	rm -rf dist
