@@ -81,6 +81,9 @@ fropilr decrypt <encrypted_file> -o/--out <outputfile>
 
 ## Development
 
+
+### Setup testing.go
+
 Add this test script to your local environment so you can test different things.
 it's ignored in git so it shouldn't copy up to the build server.
 
@@ -108,4 +111,14 @@ and then delete it when you are ready to push to production`,
 func init() {
 	rootCmd.AddCommand(testingCmd)
 }
+```
+
+### Update dependancies
+
+
+```
+go get -u
+go mod tidy
+git add .
+git changelog updates dependancies on $(date)
 ```
