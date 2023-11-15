@@ -63,3 +63,7 @@ dist-gzip: build
 
 clean:
 	rm -rf dist
+
+update:
+	go get -u ./...
+	go mod tidy
