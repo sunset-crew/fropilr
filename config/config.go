@@ -32,7 +32,7 @@ import (
 const (
 	// RsaBits bit amount
 	RsaBits = 4096
-	// Version
+	// Version of the application
 	Version = "0.1.8"
 )
 

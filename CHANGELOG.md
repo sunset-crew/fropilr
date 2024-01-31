@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - adds version subcmd to application
 - adds proper golang formating
 - adds descriptions to version command
+- adds linting of config and version
 
 ## [0.1.6] - 2023-10-31
 ### Changed
