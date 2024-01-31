@@ -23,21 +23,21 @@ THE SOFTWARE.
 package cmd
 
 import (
-  "log"
-  "fropilr/actions"
+	"fropilr/actions"
 	"github.com/spf13/cobra"
+	"log"
 )
 
 // restoreCmd represents the restore command
 var restoreCmd = &cobra.Command{
 	Use:   "restore",
 	Short: "Restores a Profile from a profile string provided by the user",
-	Long: `Restores a Profile from a Specified Archive`,
+	Long:  `Restores a Profile from a Specified Archive`,
 	Run: func(cmd *cobra.Command, args []string) {
-    if len(args) < 1 {
-        log.Fatal("You need an archive name, list")
-    }
-    actions.RestoreActions(args[0])
+		if len(args) < 1 {
+			log.Fatal("You need an archive name, list")
+		}
+		actions.RestoreActions(args[0])
 	},
 }
 

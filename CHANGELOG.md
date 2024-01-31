@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 [Also based on](https://github.com/conventional-changelog/standard-version/blob/master/CHANGELOG.md) so decending.
 
+## [0.1.8] - 2024-01-31
+### Added
+- adds golang dependancy update to makefile
+- adds version subcmd to application
+- adds proper golang formating
+- adds descriptions to version command
+- adds linting of config and version
+- adds default target for make and version linting
+
 ## [0.1.6] - 2023-10-31
 ### Changed
 - updates dependancies on tue 31 oct 2023 02:19:03 pm edt

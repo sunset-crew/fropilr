@@ -24,113 +24,112 @@ package tar
 
 import (
 	"archive/tar"
+	"bytes"
 	"compress/gzip"
 	"fmt"
 	"io"
 	"io/ioutil"
+	"log"
 	"os"
 	"path/filepath"
-	"log"
-	"bytes"
 	"strings"
 )
 
-
 // BackupProfile backs up the full profile
-func BackupProfile(home string, backupLocation string){
-    // var out []string
-    var buf bytes.Buffer
-    path, err := os.Getwd()
-    if err != nil {
-        log.Println(err)
-    }
-    fmt.Println(path)
-    os.Chdir(home)
+func BackupProfile(home string, backupLocation string) {
+	// var out []string
+	var buf bytes.Buffer
+	path, err := os.Getwd()
+	if err != nil {
+		log.Println(err)
+	}
+	fmt.Println(path)
+	os.Chdir(home)
 
-    // alphabetical order matters
-    out := WalkList(".fropilr/config")
-    data := WalkList(".fropilr/data")
-    gnupg := WalkList(".gnupg")
-    out = append(out, data...)
-    out = append(out, gnupg...)
-    out = append(out, ".muttrc")
-    fmt.Println(out)
-    CompressList(out, &buf)
-    os.Chdir(path)
+	// alphabetical order matters
+	out := WalkList(".fropilr/config")
+	data := WalkList(".fropilr/data")
+	gnupg := WalkList(".gnupg")
+	out = append(out, data...)
+	out = append(out, gnupg...)
+	out = append(out, ".muttrc")
+	fmt.Println(out)
+	CompressList(out, &buf)
+	os.Chdir(path)
 
-    fileToWrite, err := os.OpenFile(backupLocation, os.O_CREATE|os.O_RDWR, os.FileMode(0644))
-    if err != nil {
-      panic(err)
-    }
-    if _, err := io.Copy(fileToWrite, &buf); err != nil {
-      panic(err)
-    }
-    if err := fileToWrite.Close(); err != nil {
-      log.Fatal(err)
-    }
+	fileToWrite, err := os.OpenFile(backupLocation, os.O_CREATE|os.O_RDWR, os.FileMode(0644))
+	if err != nil {
+		panic(err)
+	}
+	if _, err := io.Copy(fileToWrite, &buf); err != nil {
+		panic(err)
+	}
+	if err := fileToWrite.Close(); err != nil {
+		log.Fatal(err)
+	}
 }
 
 // WalkList Walks a directory and makes a list of files
 func WalkList(directory string) []string {
-    var out []string
-    err := filepath.Walk(directory,
-        func(path string, info os.FileInfo, err error) error {
-        if err != nil {
-            return err
-        }
-        out = append(out, path)
-        return nil
-    })
-    if err != nil {
-        log.Println(err)
-    }
-    return out
+	var out []string
+	err := filepath.Walk(directory,
+		func(path string, info os.FileInfo, err error) error {
+			if err != nil {
+				return err
+			}
+			out = append(out, path)
+			return nil
+		})
+	if err != nil {
+		log.Println(err)
+	}
+	return out
 }
 
 // CompressList compresses a list of files
 func CompressList(fileList []string, buf io.Writer) error {
-  zr := gzip.NewWriter(buf)
+	zr := gzip.NewWriter(buf)
 	tw := tar.NewWriter(zr)
-  for _, file := range fileList {
-    fi, err := os.Stat(file)
-    if err != nil {
-      return err
-    }
+	for _, file := range fileList {
+		fi, err := os.Stat(file)
+		if err != nil {
+			return err
+		}
 
-    // mode := fi.Mode()
-    header, err := tar.FileInfoHeader(fi, file)
-    if err != nil {
-      return err
-    }
+		// mode := fi.Mode()
+		header, err := tar.FileInfoHeader(fi, file)
+		if err != nil {
+			return err
+		}
 
-    // must provide real name
-    // (see https://golang.org/src/archive/tar/common.go?#L626)
-    header.Name = filepath.ToSlash(file)
+		// must provide real name
+		// (see https://golang.org/src/archive/tar/common.go?#L626)
+		header.Name = filepath.ToSlash(file)
 
-    // write header
-    if err := tw.WriteHeader(header); err != nil {
-      return err
-    }
-    // if not a dir, write file content
-    if !fi.IsDir() {
-      data, err := os.Open(file)
-      if err != nil {
-        return err
-      }
-      if _, err := io.Copy(tw, data); err != nil {
-        return err
-      }
-    }
-  }
-  // produce tar
-  if err := tw.Close(); err != nil {
-    return err
-  }
-  // produce gzip
-  if err := zr.Close(); err != nil {
-    return err
-  }
-  return nil
+		// write header
+		if err := tw.WriteHeader(header); err != nil {
+			return err
+		}
+		// if not a dir, write file content
+		if !fi.IsDir() {
+			data, err := os.Open(file)
+			if err != nil {
+				return err
+			}
+			if _, err := io.Copy(tw, data); err != nil {
+				return err
+			}
+		}
+	}
+	// produce tar
+	if err := tw.Close(); err != nil {
+		return err
+	}
+	// produce gzip
+	if err := zr.Close(); err != nil {
+		return err
+	}
+	return nil
 }
 
 // validRelPath check for path traversal and correct forward slashes
@@ -203,30 +202,30 @@ func Decompress(src io.Reader, dst string) error {
 }
 
 // Unftar  restoreDir and archive
-func Unftar(restoreDir string, archive string){
+func Unftar(restoreDir string, archive string) {
 	// untar write
-   b, e := ioutil.ReadFile(archive)
-   if e != nil {
-      panic(e)
-   }
-  r := bytes.NewReader(b)
+	b, e := ioutil.ReadFile(archive)
+	if e != nil {
+		panic(e)
+	}
+	r := bytes.NewReader(b)
 	if err := Decompress(r, restoreDir); err != nil {
 		// probably delete uncompressHere?
-    log.Fatal(err)
+		log.Fatal(err)
 	}
 }
 
 // ListProfiles - lists the saved profile
 func ListProfiles(backupDirectory string) []string {
-    files, err := ioutil.ReadDir(backupDirectory)
-    if err != nil {
-        log.Fatal(err)
-    }
-    out := []string{}
-    for _, f := range files {
-        basename := f.Name()
-        name := strings.TrimSuffix(basename, ".tar.gz")
-        out = append(out,name)
-    }
-    return out
+	files, err := ioutil.ReadDir(backupDirectory)
+	if err != nil {
+		log.Fatal(err)
+	}
+	out := []string{}
+	for _, f := range files {
+		basename := f.Name()
+		name := strings.TrimSuffix(basename, ".tar.gz")
+		out = append(out, name)
+	}
+	return out
 }

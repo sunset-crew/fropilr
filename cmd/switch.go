@@ -23,24 +23,24 @@ THE SOFTWARE.
 package cmd
 
 import (
-  "log"
-  "fropilr/actions"
+	"fropilr/actions"
 	"github.com/spf13/cobra"
+	"log"
 )
 
 // switchCmd represents the switch command
 var switchCmd = &cobra.Command{
 	Use:   "switch <new user>",
 	Short: "Switches user profile to selected profile",
-	Long: `Switching user profile to selected profile`,
+	Long:  `Switching user profile to selected profile`,
 	Run: func(cmd *cobra.Command, args []string) {
-    if len(args) < 1 {
-        log.Fatal("requires at least a user account to pick from (list)")
-    }
+		if len(args) < 1 {
+			log.Fatal("requires at least a user account to pick from (list)")
+		}
 
-    if actions.CheckForRestorableArchive(args[0]) == false {
-        log.Fatal("Profile Does not exist")
-    }
+		if actions.CheckForRestorableArchive(args[0]) == false {
+			log.Fatal("Profile Does not exist")
+		}
 
 		actions.BackupActions()
 		actions.RemoveActions(true)

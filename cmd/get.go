@@ -23,7 +23,7 @@ THE SOFTWARE.
 package cmd
 
 import (
-//	"fmt"
+	//	"fmt"
 
 	"github.com/spf13/cobra"
 )
@@ -32,9 +32,9 @@ import (
 var getCmd = &cobra.Command{
 	Use:   "get",
 	Short: "Get config values",
-	Long: `Get the Config values for the system`,
+	Long:  `Get the Config values for the system`,
 	//~ Run: func(cmd *cobra.Command, args []string) {
-		//~ fmt.Println("get called")
+	//~ fmt.Println("get called")
 	//~ },
 }
 

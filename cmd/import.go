@@ -23,25 +23,25 @@ THE SOFTWARE.
 package cmd
 
 import (
-  "log"
-  "fropilr/web"
+	"fropilr/web"
 	"github.com/spf13/cobra"
+	"log"
 )
 
 // importCmd represents the import command
 var importCmd = &cobra.Command{
 	Use:   "import <name> <email>",
 	Short: "Import the profile",
-	Long: `Import the profile`,
+	Long:  `Import the profile`,
 	Run: func(cmd *cobra.Command, args []string) {
-    if len(args) < 2 {
-        log.Fatal("import <name> <email>")
-    }
-    result := web.DownloadFromServer(args[0],args[1])
-    if result != nil {
-      log.Fatal(result)
-    }
-    log.Println("Downloaded Profile")
+		if len(args) < 2 {
+			log.Fatal("import <name> <email>")
+		}
+		result := web.DownloadFromServer(args[0], args[1])
+		if result != nil {
+			log.Fatal(result)
+		}
+		log.Println("Downloaded Profile")
 	},
 }
 

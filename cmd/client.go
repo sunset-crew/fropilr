@@ -30,7 +30,7 @@ import (
 var clientCmd = &cobra.Command{
 	Use:   "client",
 	Short: "Client for profile package management",
-	Long: `Client for profile package management`,
+	Long:  `Client for profile package management`,
 }
 
 func init() {

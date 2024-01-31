@@ -1,4 +1,5 @@
-/*Package cmd decrypt this decrypts
+/*
+Package cmd decrypt this decrypts
 Copyright © 2020 Joe Siwiak <joe@unherd.info>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,44 +23,41 @@ THE SOFTWARE.
 package cmd
 
 import (
-    "fropilr/gpg"
-    "fropilr/utils"
-    "github.com/spf13/cobra"
-    "github.com/spf13/viper"
-    "errors"
+	"errors"
+	"fropilr/gpg"
+	"fropilr/utils"
+	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 // decryptCmd represents the decrypt command
 var decryptCmd = &cobra.Command{
 	Use:   "decrypt",
 	Short: "This decrypts encrypted files sent to the server.",
-	Long: `Decrypts the file in the arguments`,
-  Args: func(cmd *cobra.Command, args []string) error {
-    if len(args) < 1 {
-      return errors.New("requires at least a file to decrypt")
-    }
-    if viper.GetString("out") == "output.txt" {
-      viper.Set("out", utils.FilenameWithoutExtension(args[0]))
-    }
-    return nil
-  },
+	Long:  `Decrypts the file in the arguments`,
+	Args: func(cmd *cobra.Command, args []string) error {
+		if len(args) < 1 {
+			return errors.New("requires at least a file to decrypt")
+		}
+		if viper.GetString("out") == "output.txt" {
+			viper.Set("out", utils.FilenameWithoutExtension(args[0]))
+		}
+		return nil
+	},
 	Run: func(cmd *cobra.Command, args []string) {
-    armorFlag, _ := cmd.Flags().GetBool("armor")
-    if armorFlag == true {
-      gpg.DecryptArmorFile(args[0])
-      return
-    }
-    gpg.DecryptBinaryFile(args[0])
-  },
+		armorFlag, _ := cmd.Flags().GetBool("armor")
+		if armorFlag == true {
+			gpg.DecryptArmorFile(args[0])
+			return
+		}
+		gpg.DecryptBinaryFile(args[0])
+	},
 }
 
 func init() {
 	rootCmd.AddCommand(decryptCmd)
-  decryptCmd.Flags().String("out", "output.txt", "Output file")
-  // decryptCmd.MarkFlagRequired("out")
-  viper.BindPFlag("out", decryptCmd.Flags().Lookup("out"))
-  viper.SetDefault("out", "output.txt")
+	decryptCmd.Flags().String("out", "output.txt", "Output file")
+	// decryptCmd.MarkFlagRequired("out")
+	viper.BindPFlag("out", decryptCmd.Flags().Lookup("out"))
+	viper.SetDefault("out", "output.txt")
 }
-
-
-

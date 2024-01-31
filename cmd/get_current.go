@@ -24,7 +24,7 @@ package cmd
 
 import (
 	"fmt"
-  "fropilr/config"
+	"fropilr/config"
 	"github.com/spf13/cobra"
 )
 
@@ -32,10 +32,10 @@ import (
 var currentCmd = &cobra.Command{
 	Use:   "current",
 	Short: "Get Current profile",
-	Long: `Get current profile`,
+	Long:  `Get current profile`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("current profile")
-    fmt.Println(config.GetBackupName())
+		fmt.Println(config.GetBackupName())
 	},
 }
 

@@ -23,15 +23,14 @@ THE SOFTWARE.
 package cmd
 
 import (
-  "os"
 	"fmt"
-  "text/tabwriter"
-  "fropilr/config"
-  "fropilr/web"
-  "fropilr/tar"
+	"fropilr/config"
+	"fropilr/tar"
+	"fropilr/web"
 	"github.com/spf13/cobra"
+	"os"
+	"text/tabwriter"
 )
-
 
 // listCmd represents the list command
 var listCmd = &cobra.Command{
@@ -41,23 +40,23 @@ var listCmd = &cobra.Command{
 This way you can view all the profiles that
 have been saved.`,
 	Run: func(cmd *cobra.Command, args []string) {
-    const padding = 3
-    w := tabwriter.NewWriter(os.Stdout, 0, 0, padding, ' ', tabwriter.AlignRight)
-    if _, err := os.Stat(config.GetBackupDirectory()); !os.IsNotExist(err) {
-      // path/to/whatever exists
-      remote, _ := cmd.Flags().GetBool("remote")
-      if remote == true {
-          fmt.Println("Get list from remote")
-          web.ListRemoteProfiles()
-          return
-      }
-      for _, s := range tar.ListProfiles(config.GetBackupDirectory()){
-          fmt.Fprintf(w,"\t%s\n",s)
-      }
-      w.Flush()
-      return
-    }
-    fmt.Println("no profile backup directory")
+		const padding = 3
+		w := tabwriter.NewWriter(os.Stdout, 0, 0, padding, ' ', tabwriter.AlignRight)
+		if _, err := os.Stat(config.GetBackupDirectory()); !os.IsNotExist(err) {
+			// path/to/whatever exists
+			remote, _ := cmd.Flags().GetBool("remote")
+			if remote == true {
+				fmt.Println("Get list from remote")
+				web.ListRemoteProfiles()
+				return
+			}
+			for _, s := range tar.ListProfiles(config.GetBackupDirectory()) {
+				fmt.Fprintf(w, "\t%s\n", s)
+			}
+			w.Flush()
+			return
+		}
+		fmt.Println("no profile backup directory")
 	},
 }
 

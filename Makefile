@@ -1,4 +1,6 @@
-VERSION := 0.1.7
+VERSION := 0.1.8
+
+.DEFAULT_GOAL := build
 
 ifneq (,$(wildcard ~/.fropenv))
     include ~/.fropenv
@@ -8,7 +10,7 @@ endif
 include $(CURDIR)/.version
 
 fmt:
-	go fmt
+	go fmt ./...
 
 lint:
 	golint -set_exit_status main.go
@@ -46,7 +48,7 @@ minor:
 major:
 	git aftermerge major || exit 1
 
-build:
+build: fmt lint
 	go build -o fropilr -ldflags '-X fropilr/config.SystemPasswd=${SYSTEM_PASSWD}' main.go
 
 deb: build
@@ -63,3 +65,7 @@ dist-gzip: build
 
 clean:
 	rm -rf dist
+
+update:
+	go get -u ./...
+	go mod tidy

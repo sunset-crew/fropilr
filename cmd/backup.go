@@ -23,18 +23,19 @@ THE SOFTWARE.
 package cmd
 
 import (
+	"fropilr/actions"
 	"github.com/spf13/cobra"
-  "fropilr/actions"
 )
+
 // https://www.arthurkoziel.com/writing-tar-gz-files-in-go/
 
 // backupCmd represents the backup command
 var backupCmd = &cobra.Command{
 	Use:   "backup",
 	Short: "Backup the current user's info",
-	Long: `Backup current profile to the various locations`,
+	Long:  `Backup current profile to the various locations`,
 	Run: func(cmd *cobra.Command, args []string) {
-    actions.BackupActions()
+		actions.BackupActions()
 	},
 }
 

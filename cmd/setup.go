@@ -1,4 +1,5 @@
-/*Package cmd setup this sets up the environment
+/*
+Package cmd setup this sets up the environment
 Copyright © 2020 Joe Siwiak <joe@unherd.info>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,35 +23,34 @@ THE SOFTWARE.
 package cmd
 
 import (
-  "log"
-  "fropilr/install"
-  "fropilr/utils"
+	"fropilr/install"
+	"fropilr/utils"
 	"github.com/spf13/cobra"
+	"log"
 )
 
 // setupCmd represents the setup command
 var setupCmd = &cobra.Command{
 	Use:   "setup",
 	Short: "Sets up the gnupg environment",
-	Long: `This installs everything`,
+	Long:  `This installs everything`,
 	Run: func(cmd *cobra.Command, args []string) {
-      var err error
-      var val int
-      if val, err = install.CheckAndValidate(cmd); val == 1 {
-          keyType, _ := cmd.Flags().GetString("key-type")
-          if utils.FindIn([]string{"rsa","x25519"},keyType) == false {
-              log.Fatal("That key type doesn't exist")
-          }
-          install.ValidateAndCreate(keyType)
-          log.Println("Installed")
-      }
+		var err error
+		var val int
+		if val, err = install.CheckAndValidate(cmd); val == 1 {
+			keyType, _ := cmd.Flags().GetString("key-type")
+			if utils.FindIn([]string{"rsa", "x25519"}, keyType) == false {
+				log.Fatal("That key type doesn't exist")
+			}
+			install.ValidateAndCreate(keyType)
+			log.Println("Installed")
+		}
 
-      if err != nil {
-          log.Println(err)
-      }
+		if err != nil {
+			log.Println(err)
+		}
 	},
 }
-
 
 func init() {
 	rootCmd.AddCommand(setupCmd)

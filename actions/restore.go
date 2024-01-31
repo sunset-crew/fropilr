@@ -23,28 +23,28 @@ THE SOFTWARE.
 package actions
 
 import (
-  "os"
+	"fmt"
+	"fropilr/config"
+	"fropilr/tar"
 	"log"
-  "fmt"
-  "fropilr/tar"
-  "fropilr/config"
+	"os"
 )
 
 // RestoreActions
-func RestoreActions(archiveName string){
-    if _, err := os.Stat(config.GetConfigDirectory()); !os.IsNotExist(err) {
-        log.Fatal(".fropilr already exists")
-    }
-    home, _ := config.GetHomeDir()
-    backupArchive := fmt.Sprintf("%s/%s.tar.gz",config.GetBackupDirectory(),archiveName)
-    tar.Unftar(home,backupArchive)
-    fmt.Printf("%s Restore\n",backupArchive)
+func RestoreActions(archiveName string) {
+	if _, err := os.Stat(config.GetConfigDirectory()); !os.IsNotExist(err) {
+		log.Fatal(".fropilr already exists")
+	}
+	home, _ := config.GetHomeDir()
+	backupArchive := fmt.Sprintf("%s/%s.tar.gz", config.GetBackupDirectory(), archiveName)
+	tar.Unftar(home, backupArchive)
+	fmt.Printf("%s Restore\n", backupArchive)
 }
 
 // CheckForRestorableArchive
 func CheckForRestorableArchive(archiveName string) bool {
-    if _, err := os.Stat(fmt.Sprintf("%s/%s.tar.gz",config.GetBackupDirectory(),archiveName)); !os.IsNotExist(err) {
-        return true
-    }
-    return false
+	if _, err := os.Stat(fmt.Sprintf("%s/%s.tar.gz", config.GetBackupDirectory(), archiveName)); !os.IsNotExist(err) {
+		return true
+	}
+	return false
 }
