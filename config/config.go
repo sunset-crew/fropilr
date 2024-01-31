@@ -23,93 +23,94 @@ THE SOFTWARE.
 package config
 
 import (
-  "fmt"
-  "os/user"
-  "github.com/spf13/viper"
-  "strings"
+	"fmt"
+	"github.com/spf13/viper"
+	"os/user"
+	"strings"
 )
 
-
 const (
-    // RsaBits bit amount
-    RsaBits = 4096
+	// RsaBits bit amount
+	RsaBits = 4096
+	// Version
+	Version = "0.1.8"
 )
 
 var (
-    // SystemPasswd - System password determined by the compiler
-    SystemPasswd string
+	// SystemPasswd - System password determined by the compiler
+	SystemPasswd string
 )
-
 
 // GetSystemPassword Returns Master Password
 func GetSystemPassword() []byte {
-    return []byte(SystemPasswd)
+	return []byte(SystemPasswd)
 }
+
 // GetFropileDirectory - gets the root directory for the app
 func GetFropileDirectory() string {
-    home,_ := GetHomeDir()
-    return fmt.Sprintf("%s/.fropilr", home)
+	home, _ := GetHomeDir()
+	return fmt.Sprintf("%s/.fropilr", home)
 }
 
 // GetConfigDirectory Returns Configuration Directory
 func GetConfigDirectory() string {
-    return fmt.Sprintf("%s/config", GetFropileDirectory())
+	return fmt.Sprintf("%s/config", GetFropileDirectory())
 }
 
 // GetBackupDirectory profile backups
 func GetBackupDirectory() string {
-    return fmt.Sprintf("%s/store", GetFropileDirectory())
+	return fmt.Sprintf("%s/store", GetFropileDirectory())
 }
 
 // GetDataDirectory app data directory
 func GetDataDirectory() string {
-    return fmt.Sprintf("%s/data", GetFropileDirectory())
+	return fmt.Sprintf("%s/data", GetFropileDirectory())
 }
 
 // GetConfigFile Returns Configuration File
 func GetConfigFile() string {
-    return fmt.Sprintf("%s/config.yaml",GetConfigDirectory())
+	return fmt.Sprintf("%s/config.yaml", GetConfigDirectory())
 }
 
 // GetDataFile Returns Configuration File
 func GetDataFile() string {
-    return fmt.Sprintf("%s/data.json",GetConfigDirectory())
+	return fmt.Sprintf("%s/data.json", GetConfigDirectory())
 }
 
 // GetPrivKey Returns the Location of your Private Key
 func GetPrivKey() string {
-    return fmt.Sprintf("%s/privkey",GetConfigDirectory())
+	return fmt.Sprintf("%s/privkey", GetConfigDirectory())
 }
 
 // GetPubKey Returns the Location of your Public Key
 func GetPubKey() string {
-    return fmt.Sprintf("%s/pubkey",GetConfigDirectory())
+	return fmt.Sprintf("%s/pubkey", GetConfigDirectory())
 }
 
 // GetPassphraseFile Returns the Location of your passphrase file
 func GetPassphraseFile() string {
-    return fmt.Sprintf("%s/passphrase",GetConfigDirectory())
+	return fmt.Sprintf("%s/passphrase", GetConfigDirectory())
 }
 
 // GetBackupName retrns backup name and stuff
 func GetBackupName() string {
-    email := viper.GetString("email")
-    name := viper.GetString("name")
-    return TransformNameEmail(name,email)
+	email := viper.GetString("email")
+	name := viper.GetString("name")
+	return TransformNameEmail(name, email)
 }
 
 // TransformNameEmail - transforms the name and email into a profile string
-func TransformNameEmail(name,email string) string {
-    name = strings.ReplaceAll(name, " ", "-")
-    email = strings.Replace(email,"@","_at_",-1)
-    return fmt.Sprintf("%s_%s",name,email)
+func TransformNameEmail(name, email string) string {
+	name = strings.ReplaceAll(name, " ", "-")
+	email = strings.Replace(email, "@", "_at_", -1)
+	return fmt.Sprintf("%s_%s", name, email)
 }
 
 // GetHomeDir returns the home directory as a string
-func GetHomeDir() (string, error){
-    usr, err := user.Current()
-    if err != nil {
-        return "", err
-    }
-    return usr.HomeDir,err
+func GetHomeDir() (string, error) {
+	usr, err := user.Current()
+	if err != nil {
+		return "", err
+	}
+	return usr.HomeDir, err
 }

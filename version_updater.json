@@ -8,5 +8,10 @@
         "name": ".version",
         "searchStr": "VERSION=",
         "formatStr": "VERSION={0}\n"
+    },
+    {
+        "name": "config/config.go",
+        "searchStr": "    Version = \"",
+        "formatStr": "    Version = "{0}"\n"
     }
 ]

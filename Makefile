@@ -8,7 +8,7 @@ endif
 include $(CURDIR)/.version
 
 fmt:
-	go fmt
+	go fmt ./...
 
 lint:
 	golint -set_exit_status main.go
