@@ -1,5 +1,15 @@
 [
     {
+        "name": "Makefile",
+        "searchStr": "VERSION :=",
+        "formatStr": "VERSION := {0}\n"
+    },
+    {
+        "name": ".version",
+        "searchStr": "VERSION=",
+        "formatStr": "VERSION={0}\n"
+    },
+    {
         "name": "config/config.go",
         "searchStr": "\tVersion =",
         "formatStr": "\tVersion = \"{0}\"\n"
