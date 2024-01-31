@@ -23,7 +23,7 @@ THE SOFTWARE.
 package cmd
 
 import (
-    "fropilr/web"
+	"fropilr/web"
 	"github.com/spf13/cobra"
 )
 
@@ -31,9 +31,9 @@ import (
 var clientlistCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List Client for profile package management",
-	Long: `List Client for profile package management`,
+	Long:  `List Client for profile package management`,
 	Run: func(cmd *cobra.Command, args []string) {
-        web.ListRemoteProfiles()
+		web.ListRemoteProfiles()
 	},
 }
 

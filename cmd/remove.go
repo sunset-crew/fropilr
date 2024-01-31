@@ -23,7 +23,7 @@ THE SOFTWARE.
 package cmd
 
 import (
-  "fropilr/actions"
+	"fropilr/actions"
 	"github.com/spf13/cobra"
 )
 
@@ -31,10 +31,10 @@ import (
 var removeCmd = &cobra.Command{
 	Use:   "remove",
 	Short: "Remove the Current Profile",
-	Long: `This is basically a profile remover`,
+	Long:  `This is basically a profile remover`,
 	Run: func(cmd *cobra.Command, args []string) {
-    gpg, _ := cmd.Flags().GetBool("gnupg")
-    actions.RemoveActions(gpg)
+		gpg, _ := cmd.Flags().GetBool("gnupg")
+		actions.RemoveActions(gpg)
 	},
 }
 

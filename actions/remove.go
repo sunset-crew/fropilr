@@ -23,25 +23,25 @@ THE SOFTWARE.
 package actions
 
 import (
-  "os"
+	"fmt"
+	"fropilr/config"
 	"log"
-  "fmt"
-  "fropilr/config"
+	"os"
 )
 
-func RemoveActions(gpg bool){
-		fmt.Println("remove called")
-    home, _ := config.GetHomeDir()
-    configDir := config.GetConfigDirectory()
-    err := os.RemoveAll(configDir)
-    if err != nil {
-      log.Fatal(err)
-    }
-    if gpg == true {
-      gnupgDir := fmt.Sprintf("%s/.gnupg",home)
-      err := os.RemoveAll(gnupgDir)
-      if err != nil {
-        log.Fatal(err)
-      }
-    }
+func RemoveActions(gpg bool) {
+	fmt.Println("remove called")
+	home, _ := config.GetHomeDir()
+	configDir := config.GetConfigDirectory()
+	err := os.RemoveAll(configDir)
+	if err != nil {
+		log.Fatal(err)
+	}
+	if gpg == true {
+		gnupgDir := fmt.Sprintf("%s/.gnupg", home)
+		err := os.RemoveAll(gnupgDir)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
 }

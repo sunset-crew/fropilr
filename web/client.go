@@ -23,20 +23,19 @@ THE SOFTWARE.
 package web
 
 import (
-    "fmt"
+	"encoding/json"
+	"fmt"
 	"io"
 	"io/ioutil"
-	"encoding/json"
 	"net/http"
+	"net/url"
 	"os"
-    "net/url"
-    "time"
+	"time"
 )
-
 
 func DownloadFromServer(name string, email string) error {
 	// Get the data
-	resp, err := http.PostForm("http://localhost:9999/download", url.Values{"name": {name},"email": {email}})
+	resp, err := http.PostForm("http://localhost:9999/download", url.Values{"name": {name}, "email": {email}})
 	if err != nil {
 		return err
 	}
@@ -66,56 +65,57 @@ func getResponseData(url string) []byte {
 }
 
 func ListRemoteProfiles() {
-    var entries []ListEntry
-    var netClient = &http.Client{
-      Timeout: time.Second * 10,
-    }
-    resp, err := netClient.Get("http://localhost:9999/list")
-    if err != nil {
-        panic(err)
-    }
-    defer resp.Body.Close()
-    body, err := ioutil.ReadAll(resp.Body)
-    err = json.Unmarshal(body, &entries)
-    if err != nil {
-      fmt.Println("error:", err)
-    }
-    // fmt.Println("Response status:", resp.Status)
-    for _, entry := range entries {
-          fmt.Printf("  %s\n",entry.Name)
-    }
+	var entries []ListEntry
+	var netClient = &http.Client{
+		Timeout: time.Second * 10,
+	}
+	resp, err := netClient.Get("http://localhost:9999/list")
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	err = json.Unmarshal(body, &entries)
+	if err != nil {
+		fmt.Println("error:", err)
+	}
+	// fmt.Println("Response status:", resp.Status)
+	for _, entry := range entries {
+		fmt.Printf("  %s\n", entry.Name)
+	}
 }
-//~ func GetArchive(name,email string){
-    //~ response, err := http.PostForm("https://example.com/api", url.Values{"id": {"8"}})
-    //~ if err != nil {
-        //~ // postForm error happens
-    //~ } else {
-        //~ defer response.Body.Close()
-        //~ body, err := ioutil.ReadAll(response.Body)
 
-        //~ if err != nil {
-            //~ // read response error
-        //~ } else {
-            //~ // now handle the response
-        //~ }
-    //~ }
+//~ func GetArchive(name,email string){
+//~ response, err := http.PostForm("https://example.com/api", url.Values{"id": {"8"}})
+//~ if err != nil {
+//~ // postForm error happens
+//~ } else {
+//~ defer response.Body.Close()
+//~ body, err := ioutil.ReadAll(response.Body)
+
+//~ if err != nil {
+//~ // read response error
+//~ } else {
+//~ // now handle the response
+//~ }
+//~ }
 //~ }
 
 //~ func Post(url string, jsonData string) string {
-	//~ var jsonStr = []byte(jsonData)
+//~ var jsonStr = []byte(jsonData)
 
-	//~ req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
-	//~ req.Header.Set("Content-Type", "application/json")
+//~ req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
+//~ req.Header.Set("Content-Type", "application/json")
 
-	//~ client := &http.Client{}
-	//~ resp, err := client.Do(req)
-	//~ if err != nil {
-		//~ panic(err)
-	//~ }
-	//~ defer resp.Body.Close()
+//~ client := &http.Client{}
+//~ resp, err := client.Do(req)
+//~ if err != nil {
+//~ panic(err)
+//~ }
+//~ defer resp.Body.Close()
 
-	//~ fmt.Println("response Status:", resp.Status)
-	//~ fmt.Println("response Headers:", resp.Header)
-	//~ body, _ := ioutil.ReadAll(resp.Body)
-	//~ return string(body)
+//~ fmt.Println("response Status:", resp.Status)
+//~ fmt.Println("response Headers:", resp.Header)
+//~ body, _ := ioutil.ReadAll(resp.Body)
+//~ return string(body)
 //~ }

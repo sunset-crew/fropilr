@@ -24,7 +24,7 @@ package cmd
 
 import (
 	"fmt"
-    "fropilr/web"
+	"fropilr/web"
 	"github.com/spf13/cobra"
 )
 
@@ -32,10 +32,10 @@ import (
 var serverCmd = &cobra.Command{
 	Use:   "server",
 	Short: "Server for profile package management",
-	Long: `Server for profile package management`,
+	Long:  `Server for profile package management`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("starting the web server")
-    web.Server()
+		web.Server()
 	},
 }
 

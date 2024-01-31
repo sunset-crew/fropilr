@@ -23,114 +23,112 @@ THE SOFTWARE.
 package gpg
 
 import (
-  "os"
-  "os/exec"
-  "fmt"
-  "bytes"
-  "strings"
-  "errors"
-  "github.com/ProtonMail/gopenpgp/v2/helper"
-  "github.com/ProtonMail/gopenpgp/v2/crypto"
-  "github.com/spf13/viper"
-  "fropilr/config"
-  "fropilr/utils"
-  "log"
+	"bytes"
+	"errors"
+	"fmt"
+	"fropilr/config"
+	"fropilr/utils"
+	"github.com/ProtonMail/gopenpgp/v2/crypto"
+	"github.com/ProtonMail/gopenpgp/v2/helper"
+	"github.com/spf13/viper"
+	"log"
+	"os"
+	"os/exec"
+	"strings"
 )
-
 
 // ImportSecretkey - import sec key
 func ImportSecretkey(passphrase string) string {
-    passtr := fmt.Sprintf("--passphrase %s",passphrase)
-    a := fmt.Sprintf("gpg --import --batch %s %s",passtr, config.GetPrivKey())
-    args := strings.Fields(a)
-    cmd := exec.Command(args[0], args[1:]...)
-    cmd.Stdout = os.Stdout
-    cmd.Stderr = os.Stderr
-    err := cmd.Run()
-    if err != nil {
-      panic(err)
-    }
-    return ""
+	passtr := fmt.Sprintf("--passphrase %s", passphrase)
+	a := fmt.Sprintf("gpg --import --batch %s %s", passtr, config.GetPrivKey())
+	args := strings.Fields(a)
+	cmd := exec.Command(args[0], args[1:]...)
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	err := cmd.Run()
+	if err != nil {
+		panic(err)
+	}
+	return ""
 }
 
 // ExportPubkey this exports pubkey
-func ExportPubkey(name string) (string,error) {
-    a := fmt.Sprintf("gpg --armor %s",fmt.Sprintf("--export %s",name))
-    args := strings.Fields(a)
-    cmd := exec.Command(args[0], args[1:]...)
-    var stdout, stderr bytes.Buffer
-    cmd.Stdout = &stdout
-    cmd.Stderr = &stderr
-    err := cmd.Run()
-    if err != nil {
-      panic(err)
-    }
-    return string(stdout.Bytes()), errors.New(string(stderr.Bytes()))
+func ExportPubkey(name string) (string, error) {
+	a := fmt.Sprintf("gpg --armor %s", fmt.Sprintf("--export %s", name))
+	args := strings.Fields(a)
+	cmd := exec.Command(args[0], args[1:]...)
+	var stdout, stderr bytes.Buffer
+	cmd.Stdout = &stdout
+	cmd.Stderr = &stderr
+	err := cmd.Run()
+	if err != nil {
+		panic(err)
+	}
+	return string(stdout.Bytes()), errors.New(string(stderr.Bytes()))
 }
 
 // GenKey Generates RSA and Elliptic Curve public and private keys
 func GenKey(name, email, keyType string, passphrase []byte) string {
-    bits := config.RsaBits
-    if keyType == "x25519" {
-        bits = 0
-    }
-    rsaKey, err := helper.GenerateKey(name, email, passphrase, keyType, bits)
-    utils.Errormsg(err)
-    fmt.Println("Private Key Generated")
-    return rsaKey
+	bits := config.RsaBits
+	if keyType == "x25519" {
+		bits = 0
+	}
+	rsaKey, err := helper.GenerateKey(name, email, passphrase, keyType, bits)
+	utils.Errormsg(err)
+	fmt.Println("Private Key Generated")
+	return rsaKey
 }
 
 // GetPassphrase gets your Passphrase
 func GetPassphrase() string {
-    armorPassphrase := utils.ReadFile(config.GetPassphraseFile())
-    passphrase,_ := DecryptCustomValue(armorPassphrase)
-    return passphrase
+	armorPassphrase := utils.ReadFile(config.GetPassphraseFile())
+	passphrase, _ := DecryptCustomValue(armorPassphrase)
+	return passphrase
 }
 
 // DecryptArmorFile decrypts and writes out a base64 string into a file
-func DecryptArmorFile(path string){
-    privkey := utils.ReadFile(config.GetPrivKey())
-    armor := utils.ReadFile(path)
-    // armor := ReadFile(path)
-    passphrase := GetPassphrase()
-    decrypted, err := helper.DecryptMessageArmored(privkey, []byte(passphrase), armor)
-    if err != nil {
-        log.Fatal(err)
-    }
-    out := viper.GetString("out")
-    utils.Write2file(out,decrypted) // detach this
-    fmt.Println(decrypted)
-    return
+func DecryptArmorFile(path string) {
+	privkey := utils.ReadFile(config.GetPrivKey())
+	armor := utils.ReadFile(path)
+	// armor := ReadFile(path)
+	passphrase := GetPassphrase()
+	decrypted, err := helper.DecryptMessageArmored(privkey, []byte(passphrase), armor)
+	if err != nil {
+		log.Fatal(err)
+	}
+	out := viper.GetString("out")
+	utils.Write2file(out, decrypted) // detach this
+	fmt.Println(decrypted)
+	return
 }
 
 // DecryptBinaryFile decrypts binary file to string file
-func DecryptBinaryFile(path string){
-    privkey := utils.ReadFile(config.GetPrivKey())
-    cypherbytes := utils.ReadBinaryFile(path)
-    // armor := ReadFile(path)
-    passphrase := GetPassphrase()
-    decrypted, err := DecryptMessageBinary(privkey, []byte(passphrase), cypherbytes)
-    if err != nil {
-        fmt.Println(err)
-        return
-    }
-    out := viper.GetString("out")
-    utils.Write2file(out,decrypted) // detach this
-    fmt.Println(decrypted)
-    return
+func DecryptBinaryFile(path string) {
+	privkey := utils.ReadFile(config.GetPrivKey())
+	cypherbytes := utils.ReadBinaryFile(path)
+	// armor := ReadFile(path)
+	passphrase := GetPassphrase()
+	decrypted, err := DecryptMessageBinary(privkey, []byte(passphrase), cypherbytes)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	out := viper.GetString("out")
+	utils.Write2file(out, decrypted) // detach this
+	fmt.Println(decrypted)
+	return
 }
-
 
 // EncryptCustomValue encrypts string with custom string
 func EncryptCustomValue(message string) (string, error) {
-    armor, err := helper.EncryptMessageWithPassword(config.GetSystemPassword(), message)
-    return armor, err
+	armor, err := helper.EncryptMessageWithPassword(config.GetSystemPassword(), message)
+	return armor, err
 }
 
 // DecryptCustomValue decrypts string with custom encryption
 func DecryptCustomValue(message string) (string, error) {
-    decrypted, err := helper.DecryptMessageWithPassword(config.GetSystemPassword(), message)
-    return decrypted, err
+	decrypted, err := helper.DecryptMessageWithPassword(config.GetSystemPassword(), message)
+	return decrypted, err
 }
 
 // EncryptMessageBinary - encrypt in binary format

@@ -23,32 +23,32 @@ THE SOFTWARE.
 package actions
 
 import (
-  "os"
-  "fmt"
+	"fmt"
+	"fropilr/config"
+	"fropilr/tar"
 	"log"
-  "fropilr/tar"
-  "fropilr/config"
+	"os"
 )
 
-func BackupActions(){
-    backupDir := config.GetBackupDirectory()
-    if _, err := os.Stat(backupDir); os.IsNotExist(err) {
-      // path/to/whatever does not exist
-      err := os.Mkdir(backupDir, 0755)
-      if err != nil {
-        log.Fatal(err)
-      }
-    }
-    home, _ := config.GetHomeDir()
-    backupName := fmt.Sprintf("%s/%s.tar.gz",backupDir,config.GetBackupName())
-    if _, err := os.Stat(backupName); ! os.IsNotExist(err) {
-        // move file first
-        log.Printf("%s removed old",backupName)
-        err = os.Remove(backupName)
-        if err != nil {
-            log.Fatal(err)
-        }
-    }
-    tar.BackupProfile(home,backupName)
-    log.Printf("%s backed up",backupName)
+func BackupActions() {
+	backupDir := config.GetBackupDirectory()
+	if _, err := os.Stat(backupDir); os.IsNotExist(err) {
+		// path/to/whatever does not exist
+		err := os.Mkdir(backupDir, 0755)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+	home, _ := config.GetHomeDir()
+	backupName := fmt.Sprintf("%s/%s.tar.gz", backupDir, config.GetBackupName())
+	if _, err := os.Stat(backupName); !os.IsNotExist(err) {
+		// move file first
+		log.Printf("%s removed old", backupName)
+		err = os.Remove(backupName)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+	tar.BackupProfile(home, backupName)
+	log.Printf("%s backed up", backupName)
 }

@@ -17,8 +17,8 @@ limitations under the License.
 package cmd
 
 import (
-  "fropilr/install"
-  "github.com/spf13/cobra"
+	"fropilr/install"
+	"github.com/spf13/cobra"
 )
 
 // setpassCmd represents the setpass command
@@ -28,7 +28,7 @@ var setpassCmd = &cobra.Command{
 	Long: `This is for setting up the passphrase that is associated with the Private Key.
 This will be an interesting one.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		  install.SetPassphrase()
+		install.SetPassphrase()
 	},
 }
 
