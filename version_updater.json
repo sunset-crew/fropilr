@@ -11,7 +11,7 @@
     },
     {
         "name": "config/config.go",
-        "searchStr": "    Version = \"",
-        "formatStr": "    Version = \"{0}\"\n"
+        "searchStr": "\tVersion =",
+        "formatStr": "\tVersion = \"{0}\"\n"
     }
 ]
