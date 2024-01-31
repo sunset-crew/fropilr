@@ -33,7 +33,7 @@ const (
 	// RsaBits bit amount
 	RsaBits = 4096
 	// Version of the application
-	Version = "0.2.0"
+	Version = "0.2.1"
 )
 
 var (
