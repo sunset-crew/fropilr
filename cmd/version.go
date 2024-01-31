@@ -26,7 +26,7 @@ import (
 var versionCmd = &cobra.Command{
 	Use:   "version",
 	Short: "This sub command shows the version of the application",
-	Long: `This sub command shows the version of the application`,
+	Long:  `This sub command shows the version of the application`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("Version:", config.Version)
 	},

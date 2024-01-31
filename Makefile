@@ -1,5 +1,7 @@
 VERSION := 0.1.8
 
+.DEFAULT_GOAL := build
+
 ifneq (,$(wildcard ~/.fropenv))
     include ~/.fropenv
     export
@@ -46,7 +48,7 @@ minor:
 major:
 	git aftermerge major || exit 1
 
-build:
+build: fmt lint
 	go build -o fropilr -ldflags '-X fropilr/config.SystemPasswd=${SYSTEM_PASSWD}' main.go
 
 deb: build
