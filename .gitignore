@@ -1,3 +1,4 @@
+backups
 root/usr/local/bin/fropilr
 cmd/testing.go
 deploy/debian/usr/local/bin/fropilr
