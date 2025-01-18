@@ -13,13 +13,7 @@ fmt:
 	go fmt ./...
 
 lint:
-	golint -set_exit_status main.go
-	golint -set_exit_status config
-	golint -set_exit_status gpg
-	golint -set_exit_status tar
-	golint -set_exit_status install
-	golint -set_exit_status utils
-	golint -set_exit_status cmd
+	go vet ./...
 
 test: lint fmt
 	go run main.go testing
