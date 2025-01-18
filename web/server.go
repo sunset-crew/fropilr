@@ -35,8 +35,8 @@ import (
 )
 
 type ListEntry struct {
-	Name     string `json:name`
-	Basename string `json:basename`
+	Name     string `json:"name"`
+	Basename string `json:"basename"`
 }
 
 type UploadFileInfo struct {
